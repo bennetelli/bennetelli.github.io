@@ -1,0 +1,110 @@
+---
+layout: post
+title: Building a horizontal JMS Bridge between two WildFly Servers using ActiveMQ
+  Artemis
+date: '2016-11-18T06:28:00.001-08:00'
+author: Bennet Schulz
+tags:
+- JMS
+- WildFly
+- ActiveMQ
+modified_time: '2016-11-18T06:28:23.366-08:00'
+thumbnail: https://2.bp.blogspot.com/-zNAr0O3xzpU/VK-dALeLNhI/AAAAAAAAACQ/8EDW0gv0Srk/s72-c/wildfly_logo_stacked_600px.png
+blogger_id: tag:blogger.com,1999:blog-3189340956761677857.post-1364193161745190813
+blogger_orig_url: http://www.bennet-schulz.com/2016/11/building--horizontal-jms-bridge-between-wildfly-servers.html
+permalink: /:year/:month/:title.html
+---
+<a href="{{ site.baseurl }}/img/wildfly_logo_stacked_600px.png" style="clear: right; float: right; margin-bottom: .5em; margin-left: .5em;">
+    <img class="img-rounded" src="{{ site.baseurl }}/img/wildfly_logo_stacked_600px.png" />
+</a>
+
+Sometimes it's necessary to connect different Message Brokers together.
+In Enterprise Messaging this scenario is known as Bridging.
+It can be done with JMS and different protocols like AMQP, ActiveMQ Artemis core protocol.
+This blogpost focusses on Bridging with JMS and two Apache ActiveMQ Artemis Brokers running which are running in WildFly.
+<br />
+<a href="{{ site.baseurl }}/img/apache-activemq-logo.png" style="clear: right; float: right; margin-bottom: .5em; margin-left: .5em;">
+    <img class="img-rounded" src="{{ site.baseurl }}/img/apache-activemq-logo.png" />
+</a>
+
+<h2>What's a JMS Bridge?</h2>
+JMS Bridges typically are used to connect Queues and Topics on different brokers or servers.
+The Bridge forwards messages from a source to a target broker whereas both brokers do not have to be in the same  cluster.
+<br />
+That makes bridging suitable for reliably sending messages from one cluster to another, for instance across a WAN, and where the connection may be  unreliable.
+It can also be used for horizontal scaling of Message Brokers like HiveMQ does.
+
+<h2>The horizontal Bridging Scenario</h2>
+There are two different deployment scenarios.
+In this blogpost I am configuring the Bridge inside a WildFly by using the source Broker.
+It's also possibile to use an additional ActiveMQ Broker as Bridge which would located in the middle of both Brokers.
+
+<div align="center">
+    <a href="{{ site.baseurl }}/img/widfly-activemq-artemis-bridge.png">
+        <img class="img-rounded" src="{{ site.baseurl }}/img/widfly-activemq-artemis-bridge.png" />
+    </a>
+</div>
+
+The previous picture shows the scenario we want to configure.
+As you can see we need to configure a Queue on the source Broker, a Queue on the target Broker and we need some configuration to connect both Queues.
+<br />
+<br />
+<u><b>Note:</b></u> I didn't find a better image for devices. Therefore I chose the iPhone image. Feel free to visualize something else ;-)
+
+<h2>Configuring the Source Broker</h2>
+In the first step you have to <a href="http://wildfly.org/downloads/" target="_blank">download</a> and unzip a WildFly server two times for source and target as you can see in the previous picture.
+<br />
+In the next step you have to configure the <code class="shell plain">standalone-full.xml</code> of your source WildFly which is located in the <code class="shell plain">standalone/configuration</code> folder of WildFly.
+<br />
+After opening the XML file you have to add a Source Queue to the Source Broker by adding the following snippet to the standalone-full.xml:
+<br />
+<a href="{{ site.baseurl }}/img/jmsbridge_source_queue.jpg">
+    <img class="img-rounded" src="{{ site.baseurl }}/img/jmsbridge_source_queue.jpg" />
+</a>
+
+This snippet creates a new JMS Queue with name JMSBridgeSourceQueue.
+In the next step you have to configure the Bridge.
+A Bridge has got lots of configuration options like max-batch-time, max-retries and so on.
+This isn't part of this post.
+<br />
+The next more important configurations to get the Bridge up and running are the source tag which points to the formerly created jms-queue and the target tag which contains configurations for the target queue of the destination broker.
+<br />
+<a href="{{ site.baseurl }}/img/jms-bridge-stuff.jpg">
+    <img class="img-rounded" src="{{ site.baseurl }}/img/jms-bridge-stuff.jpg" />
+</a>
+As you can see the target broker needs a authentication.
+Therefore you need to create a Application User on the target Broker.
+
+<h2>Configuring the target Broker</h2>
+After configuring the source Broker you have to configure the target one.
+As described before the JMS Bridge requires an Application User which has to be added on the destination Broker and referenced in the source Broker <code class="shell plain">standalone-full.xml</code> file.
+<br />
+This Application User can be created by using the <code class="shell plain">add-user.sh</code> script which is located in the <code class="shell plain">bin</code> folder.
+<br />
+In the last step you also have to configure the <code clas="shell plain">standalone-full.xml</code> file of the target Broker.
+<br />
+<a href="{{ site.baseurl }}/img/jms-bridge-target-queue-2.jpg">
+    <img class="img-rounded" src="{{ site.baseurl }}/img/jms-bridge-target-queue-2.jpg" />
+</a>
+You have to create a JMS Queue with the same name as the destination of the soure Brokers Bridge configuration.
+That's it.
+In the last step you can start both servers and check the logfiles.
+The Bridge is up and running if both WildFlies start sucessfully without any errors.
+
+<h2>Starting the Brokers</h2>
+<code class="shell plain">./standalone.sh -Djboss.socket.binding.port-offset=100 -c standalone-full.xml</code>
+<br>
+<code class="shell plain">./standalone.sh -c standalone-full.xml</code>
+
+<h2>Conclusion</h2>
+A JMS Bridge can be configured with lots of properties.
+Quality of service, max-batch-time and max-batch-size max-retries and a failure-retry-interval.
+<br>
+<br>
+Have fun with your JMS Bridge!
+<br />
+<br />
+Bye,
+<br />
+Bennet
+<br />

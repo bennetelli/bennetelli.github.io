@@ -1,0 +1,21 @@
+---
+layout: page
+title: ActiveMQ
+excerpt: "An archive of posts sorted by tag."
+search_omit: true
+---
+
+{% for tag in site.tags %}
+{% if tag[0] == 'ActiveMQ' %}
+<h2 id="{{ tag[0] }}">{{ tag[0] }}</h2>
+<ul class="post-list">
+
+    {% for post in tag[1] %}
+    {% if post.title != null %}
+    <li><a href="{{ site.url }}{{ post.url }}">{{ post.title }}<span class="entry-date"><time datetime="{{ post.date | date_to_xmlschema }}"> ({{ post.date | date: "%B %d, %Y" }})</time></span></a></li>
+    {% endif %}
+    {% endfor %}
+</ul>
+{% endif %}
+{% endfor %}
+

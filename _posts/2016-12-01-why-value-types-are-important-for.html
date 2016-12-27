@@ -1,0 +1,76 @@
+---
+layout: post
+title: Why Value Types Are Important For A Maintainable Software
+date: 2016-12-01T06:59:00.002-08:00
+author: "Bennet Schulz"
+tags: 
+modified_time: '2016-12-01T06:59:33.695-08:00'
+thumbnail: https://1.bp.blogspot.com/-CY3Ji4MLp3s/WDBoFUNrojI/AAAAAAAAAmw/K6WH2AltvZ8qYbGczo_NmkwEuYo6T_2IwCLcB/s72-c/air-canada.jpeg
+blogger_id: tag:blogger.com,1999:blog-3189340956761677857.post-1717097872101328464
+blogger_orig_url: http://www.bennet-schulz.com/2016/12/why-value-types-are-important-for.html
+permalink: /:year/:month/:title.html
+---
+<a href="{{ site.baseurl }}/img/air-canada.jpeg" style="clear: right; float: right; margin-bottom: .5em; margin-left: .5em;">
+    <img align="right" class="img-rounded" src="{{ site.baseurl }}/img/air-canada.jpeg" />
+</a>
+Some weeks ago I read a tweet which contained this picture and someone said:"That's the reason why Value Types are helpful!".
+After that I remembered situations happened some years ago and I decided to write a blog post about it.
+<br />
+During some projects I've seen a lot of valdiation code which was quite  crazy.
+Most of the time there were methods with parameters like Doubles, BigDecimals or Strings followed by lots of business validations at the  beginning of each method.
+These business validations were scattered around the whole codebase and most of the time it was copy pasted.
+These validations contain technical validations like null checks and business validations.
+Situations like these are really suboptimal for several reasons.
+This blogpost describes why you should know and use the concept of Value Types even if you don't do Domain Driven Design.
+
+<h2>Why is that bad?</h2>
+First, <b>code doesn't reflect the business domain</b>.
+Some of these  methods parameters depend on each other and the following validation check in combination with this parameters form a business rule which is really bad placed in terms of a maintainable software.
+Why? Because the software offers the functionality the Product Owner wants it to have, but it will  become very hard to find this specific business rules in the codebase because you can't search for specific nouns the business guy says.
+I have had this situation more than once.
+I had to grasp the whole codebase because it was not clear where to find this business rule and which class or method is responsible for that.
+<br />
+On the other hand the <b>semantics are unclear</b>.
+When using a String instead of a Value Type as method parameter it's much easier to use methods the wrong way which results in implementing bugs.
+Imagine a method with two parameters of type String.
+The person who implemented this method knows the responsibilities of each parameter because he implemented this method and knows the internals of this method. Other developers who just want to use this method don't know anything about the internals.
+They just know the method name and the parameters and they could be unobservant and pass the first String in the second parameter and the second in the first and the code would even compile!
+Although it's completely wrong from a business point of view! In best case the bug would be detected by a test.
+Otherwise it could appear at runtime on your local runtime or even worse: in production.
+When replacing the Strings by meaningful Value Types you can't just switch both parameters without getting compile errors because they are not of the same type.
+You (as teh developer using this method) can't use the method the wrong way and bring your application in an irregular state.
+
+<h2>How to improve it?</h2>
+To improve this, you simply can implement an immutable class whose constructor contains this method parameter.
+Within this constructor you can perform all these validation checks you did in the whole code base before.
+This increases the maintainability of your software.
+<br />
+In the past I often heard people saying:".. but I don't want to create additional classes for just a few lines of code".
+Yes, it is an additional class, but this class protects you from passing wrong parameters in a method when using Value Types instead of Strings as parameters for example.
+<br />
+In addition to that, bugs will be detected at compile time, already.
+Value Types could save you a lot of money because you can fix the bug early in the development and not in production.
+
+<h2>Conclusion</h2>
+Value Objects are very powerful when it comes to maintainability of a software.
+Even if you don't use Domain Driven Design in your projects.
+<br />
+By using Value Objects your code becomes easier to understand and thus easier to maintain for others.
+It will be easier for other developers to find the business rules the Product Owner is talking about without grasping the whole codebase and searching for usages of different method parameters.
+<br />
+<br />
+I hope you enjoyed the blogpost and learned something new. If you like it, leave a comment.
+If not leave one as well ;-)
+<br />
+<br />
+Bye,
+<br />
+Bennet
+
+<h2>Further Readings</h2>
+<ul>
+    <li><a href="http://martinfowler.com/bliki/ValueObject.html">http://martinfowler.com/bliki/ValueObject.html</a></li>
+    <li><a href="http://dirkriehle.com/computer-science/research/1998/ubilab-tr-1998-10-1.html">http://dirkriehle.com/computer-science/research/1998/ubilab-tr-1998-10-1.html</a></li>
+    <li><a href="http://wiki.c2.com/?ValueObject">http://wiki.c2.com/?ValueObject</a></li>
+    <li><a href="http://bezmax.com/2015/09/20/clean-code-with-value-objects/">http://bezmax.com/2015/09/20/clean-code-with-value-objects/</a></li>
+</ul>

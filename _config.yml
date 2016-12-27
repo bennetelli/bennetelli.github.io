@@ -1,0 +1,26 @@
+# Site settings
+title: Enterprise Java Blog
+header-img: img/aroma-1239226_1280_lowest_quality_and_optimized_by_gtmetrix.jpg
+email: mail@bennet-schulz.com
+copyright_name: Bennet Schulz
+description: "Blog about Software Development focused on Java Enterprise Edition and Integration. I am also blogging about general Java topics, books and so on."
+baseurl: ""
+url: "http://bennet-schulz.com"
+twitter_username: bennetelli
+github_username:  bennetelli
+facebook_username:  bennet.schulz
+xing_username: Bennet_Schulz
+linkedin_username: bennet-schulz-8a3bb4131
+
+# Google Analytics
+# To enable google analytics, uncomment below line with a valid Google Tracking ID
+google_tracking_id: UA-89396615-1
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+paginate: 5
+exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
+
+gems: [jekyll-paginate, jekyll-feed]

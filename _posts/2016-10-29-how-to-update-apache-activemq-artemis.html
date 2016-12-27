@@ -1,0 +1,79 @@
+---
+layout:     post
+title:      How To Update Apache ActiveMQ Artemis
+date:       "2016-10-29T10:17:00.000-07:00"
+author:     "Bennet Schulz"
+tags:
+- Artemis
+- ActiveMQ
+modified_time: '2016-10-29T12:07:10.803-07:00'
+thumbnail: https://4.bp.blogspot.com/-CK9eop5gM80/V_JGmCGtuWI/AAAAAAAAAkA/Y_YfwNcKJZMrPn9cxNTB9otqCiXV_ewHgCLcB/s72-c/activemq-logo.png
+blogger_id: tag:blogger.com,1999:blog-3189340956761677857.post-152993989587029636
+blogger_orig_url: http://www.bennet-schulz.com/2016/10/how-to-update-apache-activemq-artemis.html
+permalink: /:year/:month/:title.html
+---
+<a href="{{ site.baseurl }}/img/activemq-logo.png">
+    <img src="{{ site.baseurl }}/img/activemq-logo.png" alt="ActiveMQ Artemis logo">
+</a>
+This blog post describes how to update a Message Broker to a newer version of ActiveMQ Artemis without copy and pasting configuration files and other stuff.
+
+<h2>What is Apache ActiveMQ Artemis?</h2>
+Apache ActiveMQ is a  subproject of Apache ActiveMQ. It has been donated to the Apache  Software Foundation in 2015.
+There were lots of changes in project names in the past. The Artemis project first started as JBoss Messaging and got renamed to HornetQ in August 2009.
+They decided to rename it and separate it as an independent project since  it differs in a many ways from JBoss Messaging 1.x and they didn't want  to confuse the two, quite different, systems.
+The vast majority of the  code base of HornetQ is different to the code base of JBoss Messaging  1.x.
+Some years later in 2015 they donated HornetQ to the Apache Software Foundation.
+As a subproject of ActiveMQ it became part of the ActiveMQ umbrella.
+
+<h2>How to create a new Artemis Broker?</h2>
+The standard Apache ActiveMQ is runnable out of the box.
+Just download  it, go into the unzipped ActiveMQ folder and run this command:
+<b>./bin/activemq run</b>.
+<br />
+The ActiveMQ Artemis subproject needs an additional step to run the Message Queue.
+Before running activemq run you have to create a new message broker instance.
+It looks like an overhead at first glance, but becomes very practically when updating to a new Artemis version for example.
+To create a artemis broker run:
+<b>./bin/artemis create $HOME/mybroker</b> on your command line.
+<br />
+<br />
+<u>Note:</u> I recommend choosing a different folder than the downloaded apache-artemis one to separate both from each other.
+This separation allowes you run multiple brokers with the same artemis runtime for example.
+In the next step change directory (<b>cd</b>) to the formerly created <b>mybroker/bin</b> folder and run the broker.
+
+<h2>How to update ActiveMQ Artemis?</h2>
+Go in the <b>etc</b> folder of your formerly created message broker and open <b>artemis.profile</b>.
+This file contains some properties like Java Opts, Clustering properties and these two locations:
+<br />
+<br />
+<a href="{{ site.baseurl }}/img/artemis-profile.jpg">
+    <img class="img-rounded" src="{{ site.baseurl }}/img/artemis-profile.jpg" alt="ActiveMQ Artemis logo">
+</a>
+<br />
+As you can see, the <b>ARTEMIS_HOME</b> variable is used to link the broker and the artemis runtime together.
+In case you want to update your broker you can simply download the new version of ActiveMQ Artemis and change the path in the artemis.profile of your broker instance.
+That's all. There is no need to touch your broker, copy configuration files or stuff like that :-)
+<br />
+
+<h2>Conclusion</h2>
+In my opinion the concept of the separated broker instance is really nice because it's much easier to update to a newer version of ActiveMQ Artemis than it was with standard ActiveMQ.
+You don't need to copy paste configuration files anymore and you don't need to be afraid of updating your Message Oriented Middleware because the separated Broker instance stays stable and compatible to newer versions without changing your configurations.
+<br />
+<br />
+Hope you enjoyed the tutorial. Give it a try and <a href="http://activemq.apache.org/artemis/download.html"><u>download</u></a> the current version of Artemis!
+It comes with a great <a href="http://activemq.apache.org/artemis/docs.html" target="_blank"><u>documentation</u></a> and lots of examples which are running out of the box.
+<br />
+<br />
+<br />
+Bye,
+<br />
+Bennet
+
+<h2>Further Readings</h2>
+<ol>
+    <li><a href="http://hornetq.blogspot.de/2009/08/hornet-hatches.html">http://hornetq.blogspot.de/2009/08/hornet-hatches.html</a></li>
+    <li><a href="http://hornetq.blogspot.de/2015/06/hornetq-apache-donation-and-apache.html">http://hornetq.blogspot.de/2015/06/hornetq-apache-donation-and-apache.html</a></li>
+    <li><a href="http://activemq.apache.org/artemis">http://activemq.apache.org/artemis</a></li>
+    <li><a href="https://www.infoq.com/news/2010/09/hornetq-benchmark">https://www.infoq.com/news/2010/09/hornetq-benchmark</a></li>
+    <li><a href="https://developer.jboss.org/wiki/HornetQ-thePerformanceLeaderinEnterpriseMessaging">https://developer.jboss.org/wiki/HornetQ-thePerformanceLeaderinEnterpriseMessaging</a></li>
+</ol>

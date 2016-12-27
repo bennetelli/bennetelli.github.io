@@ -1,0 +1,21 @@
+---
+layout: post
+title: How to avoid undesired and vendor specific imports using plain Eclipse
+date: '2014-11-28T08:03:00.001-08:00'
+author: Bennet Schulz
+tags:
+- Java
+- eclipse
+- hide imports
+- ibm
+- clear autocompletion
+- clear suggestion
+- avoid imports
+modified_time: '2014-12-20T11:11:31.331-08:00'
+thumbnail: http://4.bp.blogspot.com/-cS19L-AWV7U/VHiXARpl6eI/AAAAAAAAAGA/uhUwWtSptlU/s72-c/Bildschirmfoto%2Bvom%2B2014-11-28%2B16%3A18%3A13.png
+blogger_id: tag:blogger.com,1999:blog-3189340956761677857.post-8459449241892331479
+blogger_orig_url: http://www.bennet-schulz.com/2014/11/how-to-avoid-undesired-and-vendor.html
+permalink: /:year/:month/:title.html
+---
+
+<br />Enterprise projects typically have a large amount of different  dependencies, libraries and other stuff. This count of classes increases  when using IBM JDK with its own implementations of different Oracle JDK  classes. <br />In case you are working on a large enterprise project you possibly know this nuisances.<br /><br />As you can see in the following figure you even get three different suggestions when typing "Logger" using Oracle's JDK without any dependencies and libraries.<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://4.bp.blogspot.com/-cS19L-AWV7U/VHiXARpl6eI/AAAAAAAAAGA/uhUwWtSptlU/s1600/Bildschirmfoto%2Bvom%2B2014-11-28%2B16%3A18%3A13.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://4.bp.blogspot.com/-cS19L-AWV7U/VHiXARpl6eI/AAAAAAAAAGA/uhUwWtSptlU/s1600/Bildschirmfoto%2Bvom%2B2014-11-28%2B16%3A18%3A13.png" height="138" width="400" /></a></div><br /><div class="separator" style="clear: both; text-align: center;"></div><br />This count of suggestions increases rapidely when using IBM J9 or different dependencies and libraries. Sometimes it appears that someone chooses the wrong import. For example cmo.ibm.icu.util.Calendar instead of java.util.Calendar. Luckily and/or unluckily both Calendar implementations have equal methods and also method signatures.<br /><br />This results in an undesired import and eliminates you're additionally married with the IBM JDK! Congratulations! To avoid undesired  suggestions and imports, Eclipse offers a feature named type filters. You simply have to choose: <b>&nbsp;</b><br /><br /><div style="text-align: center;"><b>Window -&gt; Preferences -&gt; Java -&gt; Appearances -&gt; Type Filters</b></div><div style="text-align: left;"><br /></div><div style="text-align: left;">A click on <b>Add Packages...</b> and you get the following filter window.</div><div style="text-align: left;"><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="http://3.bp.blogspot.com/-PjTh22r4hqI/VHiZI0ucY6I/AAAAAAAAAGM/Aw4cdV5TWHY/s1600/Bildschirmfoto%2Bvom%2B2014-11-28%2B16%3A45%3A23.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://3.bp.blogspot.com/-PjTh22r4hqI/VHiZI0ucY6I/AAAAAAAAAGM/Aw4cdV5TWHY/s1600/Bildschirmfoto%2Bvom%2B2014-11-28%2B16%3A45%3A23.png" height="297" width="320" /></a></div><div style="text-align: left;"><br /></div><div style="text-align: left;">There you can add specific classes or whole packages. After that Eclipse won't suggest these packages anymore.</div><div style="text-align: left;"><br /></div><div style="text-align: left;">It is also possible to hide methods like wait(), notifyAll() and other outdated methods like the awt and swing ones.&nbsp;</div><div style="text-align: left;"><br />Have fun with this more clear and stress-free programming :-)</div><div style="text-align: left;"><br /></div><br /><a href="https://twitter.com/bennetelli" class="twitter-follow-button" data-show-count="false">Follow @bennetelli</a><br /><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>

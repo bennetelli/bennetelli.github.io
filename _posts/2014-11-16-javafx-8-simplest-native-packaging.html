@@ -1,0 +1,21 @@
+---
+layout: post
+title: 'JavaFX 8: Simplest Native Packaging using Netbeans 8 and Ant Tasks'
+date: '2014-11-16T01:49:00.000-08:00'
+author: Bennet Schulz
+tags:
+- deb
+- exe
+- msi
+- rpm
+- javafx 8
+- native packaging
+- netbeans
+modified_time: '2014-12-20T11:11:42.098-08:00'
+thumbnail: http://3.bp.blogspot.com/-Bu_COtPigXk/VGemhaKBpeI/AAAAAAAAAFY/wCxlHA-9Tck/s72-c/Bildschirmfoto%2Bvom%2B2014-11-15%2B20%3A15%3A41.png
+blogger_id: tag:blogger.com,1999:blog-3189340956761677857.post-5556338820496506431
+blogger_orig_url: http://www.bennet-schulz.com/2014/11/javafx-8-simplest-native-packaging.html
+permalink: /:year/:month/:title.html
+---
+
+The reason I am writing this blog post is that I didn't find any short example about Native Packaging in JavaFX 8. Most of them were too long and too confusing. This blog post aims to close this gap.<br /><br />At times of Swing the final artifact of a Swing build was still a jar and native installers out of the box were a dream. Since JavaFX it is possible to create native packages. The results are operating system specific installers. For Windows this will be .msi or .exe, on a linux platform the installers are .deb for the debian based distributions and .rpm for the Red Hat based ones.<br /><br />NetBeans 8.x provides a great native packaging support for JavaFX 8 Apps. The easiest way to create such installable applications in JavaFX using NetBeans 8.x is creating a simple JavaFX project with the following project wizard (File -&gt; New Project):<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://3.bp.blogspot.com/-Bu_COtPigXk/VGemhaKBpeI/AAAAAAAAAFY/wCxlHA-9Tck/s1600/Bildschirmfoto%2Bvom%2B2014-11-15%2B20%3A15%3A41.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://3.bp.blogspot.com/-Bu_COtPigXk/VGemhaKBpeI/AAAAAAAAAFY/wCxlHA-9Tck/s1600/Bildschirmfoto%2Bvom%2B2014-11-15%2B20%3A15%3A41.png" height="273" width="400" /></a></div>This choice will result in an ant based JavaFX project. Ant in my opinion is really outdated, but for this simple task of creating operating system related installers it is the easiest and fastest way using NetBeans.<br /><br />After creating such an ant project in NetBeans, you simply have to enable native packaging by choosing properties at the context menu of the created project. After that you have to enable the packaging like in this figure:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://2.bp.blogspot.com/-2or6m_75THE/VGeoVbO1V5I/AAAAAAAAAFk/aF88hW8rh1s/s1600/Bildschirmfoto%2Bvom%2B2014-11-15%2B20%3A23%3A09.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://2.bp.blogspot.com/-2or6m_75THE/VGeoVbO1V5I/AAAAAAAAAFk/aF88hW8rh1s/s1600/Bildschirmfoto%2Bvom%2B2014-11-15%2B20%3A23%3A09.png" height="282" width="400" /></a></div><br />The last step after enabling native packaging is right-clicking the project root, choosing the "Package as" menu entry and selecting your operating system respective installer like: deb, exe and so on.<br /><br />The result of clicking a native package could be found at the <b>dist</b> directory of the JavaFX project in the <b>NetBeansProjects</b> workspace. <br /><br />Have fun with installing your JavaFX Apps at different platforms :-)<br /><br />PS: watch the build with patience. Building installers is not as fast as building jars.<br /><br /><a href="https://twitter.com/bennetelli" class="twitter-follow-button" data-show-count="false">Follow @bennetelli</a><br /><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
