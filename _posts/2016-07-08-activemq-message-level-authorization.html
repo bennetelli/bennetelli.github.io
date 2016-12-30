@@ -12,65 +12,79 @@ blogger_id: tag:blogger.com,1999:blog-3189340956761677857.post-88125817080591830
 blogger_orig_url: http://www.bennet-schulz.com/2016/07/activemq-message-level-authorization.html
 permalink: /:year/:month/:title.html
 ---
+<p>
+    <a href="{{ site.baseurl }}/img/apache-activemq-logo.png"
+       style="clear: right; float: right; margin-bottom: .5em; margin-left: .5em;">
+        <img class="img-rounded" src="{{ site.baseurl }}/img/apache-activemq-logo.png"/>
+    </a>
 
-<a href="{{ site.baseurl }}/img/apache-activemq-logo.png" style="clear: right; float: right; margin-bottom: .5em; margin-left: .5em;">
-    <img class="img-rounded" src="{{ site.baseurl }}/img/apache-activemq-logo.png" />
-</a>
-
-While the last <a href="http://www.bennet-schulz.com/2016/07/secure-apache-activemq-message-queues.html" target="_blank">post</a> covered Broker Level Authentication, this blogpost is about more strict authorization on message level.
-<br />
-I didn't have this fine granular authorization out there in real life projects, but I want to do it myself and give readers a tutorial to widen their knowledge about security in ActiveMQ and ease their beginning with it.
-<br />
-Sometimes it can be useful to restrict access to brokers and on top of  it to certain messages.
-ActiveMQ doesn't come with a plugin for it out  of the box.
-You have to implement it more or less on your own.
+    While the last <a href="http://www.bennet-schulz.com/2016/07/secure-apache-activemq-message-queues.html"
+                      target="_blank">post</a> covered Broker Level Authentication, this blogpost is about more strict
+    authorization on message level.
+    <br/>
+    I didn't have this fine granular authorization out there in real life projects, but I want to do it myself and give
+    readers a tutorial to widen their knowledge about security in ActiveMQ and ease their beginning with it.
+    <br/>
+    Sometimes it can be useful to restrict access to brokers and on top of it to certain messages.
+    ActiveMQ doesn't come with a plugin for it out of the box.
+    You have to implement it more or less on your own.
+</p>
 
 <h2>Create a Java project with Maven</h2>
-You have to start with creating a new Java project based on Maven.
-<br />
-In the next step, I recommend to add the activemq-all maven dependency (in the same version as your activemq installation to your project to be sure you use the correct imports and classes).
-<br />
-A list of all activemq versions and corresponding maven dependency snippets is available <a href="https://mvnrepository.com/artifact/org.apache.activemq/activemq-all" target="_blank"><u>here</u></a>.
-<br />
-After that it's time to add a new Java class to your formerly created project.
-My Message Level Policy class looks like this:
-<script src="https://gist.github.com/bennetelli/b9fdd1969662181ef817fad65c8f9614.js"></script>
-<u>Note:</u> Your class has to implement the MessageAuthorizationPolicy interface and you have to add the public boolean isAllowedToConsume(...) method to your class as well.
-Within this method you can implement your logic to decide who is allowed to consume your messages.
-In my example admins are allowed to consume, only.
+<p>
+    You have to start with creating a new Java project based on Maven.
+    <br/>
+    In the next step, I recommend to add the activemq-all maven dependency (in the same version as your activemq
+    installation to your project to be sure you use the correct imports and classes).
+    <br/>
+    A list of all activemq versions and corresponding maven dependency snippets is available <a
+        href="https://mvnrepository.com/artifact/org.apache.activemq/activemq-all" target="_blank"><u>here</u></a>.
+    <br/>
+    After that it's time to add a new Java class to your formerly created project.
+    My Message Level Policy class looks like this:
+    <script src="https://gist.github.com/bennetelli/b9fdd1969662181ef817fad65c8f9614.js"></script>
+    <u>Note:</u> Your class has to implement the MessageAuthorizationPolicy interface and you have to add the public
+    boolean isAllowedToConsume(...) method to your class as well.
+    Within this method you can implement your logic to decide who is allowed to consume your messages.
+    In my example admins are allowed to consume, only.
+</p>
 
 <h2>Add the Policy to ActiveMQ</h2>
-Open a console, cd into your project folder and build your maven application by calling mvn clean install command.
-<br />
-Now it's time to copy the jar file from the target project folder to the lib folder of your ActiveMQ installation to make it available for ActiveMQ.
-In the last configuration step you have to add the following snippet into broker tag of the activemq.xml:
-<script src="https://gist.github.com/bennetelli/ca882bfa546aa2cc82c02a6a260055ce.js"></script>
-<u>Hint:</u> Don't forget to change it to your fully qualified classname, not mine ;-)
+<p>
+    Open a console, cd into your project folder and build your maven application by calling mvn clean install command.
+    <br/>
+    Now it's time to copy the jar file from the target project folder to the lib folder of your ActiveMQ installation to
+    make it available for ActiveMQ.
+    In the last configuration step you have to add the following snippet into broker tag of the activemq.xml:
+    <script src="https://gist.github.com/bennetelli/ca882bfa546aa2cc82c02a6a260055ce.js"></script>
+    <u>Hint:</u> Don't forget to change it to your fully qualified classname, not mine ;-)
+</p>
 
 <h2>Test the Policy by consuming messages</h2>
-First you have to start the broker via the following command on your console:
-<br />
-<b>./bin/activemq start</b>
-<br />
-Check if your policy is working by using the activemq script to consume sample messages:
-<br />
-<b>./bin/activemq consumer --user admin --password password</b>
-<br />
-This should work, because the formerly created policy class allowes user admin to consume the messages.
-In addition to that it should not be possible to consume messages with other users than user admin.
-You can test it by using another user:
-<br />
-<b>./bin/activemq consumer --user consumer --password password</b>
-<br />
-This consumer should not consume any single message.
-<br />
-<br />
-If you have questions, want my source code, a youtube video or something like that, just leave a comment or get in contact with me via twitter.
-Have fun with ActiveMQ!
-<br />
-<br />
-<br />
-Bye,
-<br />
-Bennet
-<br />
+<p>
+    First you have to start the broker via the following command on your console:
+    <br/>
+    <code>./bin/activemq start</code>
+    <br/>
+    Check if your policy is working by using the activemq script to consume sample messages:
+    <br/>
+    <code>./bin/activemq consumer --user admin --password password</code>
+    <br/>
+    This should work, because the formerly created policy class allowes user admin to consume the messages.
+    In addition to that it should not be possible to consume messages with other users than user admin.
+    You can test it by using another user:
+    <br/>
+    <code>./bin/activemq consumer --user consumer --password password</code>
+    <br/>
+    This consumer should not consume any single message.
+    <br/>
+    <br/>
+    If you have questions, want my source code, a youtube video or something like that, just leave a comment or get in
+    contact with me via twitter.
+    Have fun with ActiveMQ!
+</p>
+<p>
+    Bye,
+    <br/>
+    Bennet
+</p>

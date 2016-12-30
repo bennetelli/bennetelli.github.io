@@ -15,53 +15,74 @@ permalink: /:year/:month/:title.html
 ---
 <div style="text-align: center;">
     <a href="https://3.bp.blogspot.com/-Xvmc9jVgmlA/V3zYI5Ncm2I/AAAAAAAAAg8/WApwJ284NUgObmQ36CS58dHrAQ8K3uB0gCLcB/s1600/apache-activemq-logo.png">
-        <img style="display: inline-block;" src="https://3.bp.blogspot.com/-Xvmc9jVgmlA/V3zYI5Ncm2I/AAAAAAAAAg8/WApwJ284NUgObmQ36CS58dHrAQ8K3uB0gCLcB/s1600/apache-activemq-logo.png" />
+        <img style="display: inline-block;"
+             src="https://3.bp.blogspot.com/-Xvmc9jVgmlA/V3zYI5Ncm2I/AAAAAAAAAg8/WApwJ284NUgObmQ36CS58dHrAQ8K3uB0gCLcB/s1600/apache-activemq-logo.png"/>
     </a>
     <a href="https://4.bp.blogspot.com/-VmCR533EkmE/V3zOhkYWrTI/AAAAAAAAAgg/BvbIAfyBQ98j_y13lQZb1CV9we96J4RgQCLcB/s1600/logo-450px.png">
-        <img style="display: inline-block;" src="https://4.bp.blogspot.com/-VmCR533EkmE/V3zOhkYWrTI/AAAAAAAAAgg/BvbIAfyBQ98j_y13lQZb1CV9we96J4RgQCLcB/s200/logo-450px.png"/>
+        <img style="display: inline-block;"
+             src="https://4.bp.blogspot.com/-VmCR533EkmE/V3zOhkYWrTI/AAAAAAAAAgg/BvbIAfyBQ98j_y13lQZb1CV9we96J4RgQCLcB/s200/logo-450px.png"/>
     </a>
 </div>
-
-Apache ActiveMQ is my first choice every time a Message Queue is needed to solve my integration problems.
-Unfortunately the ActiveMQ Web Console is not that comfortable, so I decided to add the Red Hat JBoss project <a href="http://hawt.io/" target="_blank"><u>hawtio</u></a> to my standalone ActiveMQ environment.
-<br />
-Hawtio is a modular web console for managing Java stuff.
-It has nice dashboards, wiki and lots of plugins for <a href="http://hawt.io/plugins/logs/index.html"><u>logs</u></a>, <a href="http://hawt.io/plugins/health/index.html"><u>health</u></a>, JMX, OSGi, <a href="http://activemq.apache.org/"><u>Apache ActiveMQ</u></a>, <a href="http://camel.apache.org/"><u>Apache Camel</u></a>, <a href="http://openejb.apache.org/"><u>Apache OpenEJB</u></a>, <a href="http://tomcat.apache.org/"><u>Apache Tomcat</u></a>, <a href="http://www.eclipse.org/jetty/"><u>Jetty</u></a>, <a href="http://www.jboss.org/jbossas"><u>JBoss</u></a> and <a href="http://fuse.fusesource.org/fabric/"><u>Fuse Fabric</u></a>.
-<br />
-Currently there are just a few tutorials out there which explain how to add hawtio to a standalone ActiveMQ installation.
-Unfortunately these tutorials are outdated and misleading.
-Therefore I am writing this tutorial.
-You can see it as an update of existing tutorials.
-<br />
-There are two ways to get your standalone ActiveMQ up and running with hawtio.
-You can either follow the following steps or take a look at my GitHub repository which contains a running version of ActiveMQ and hawtio.
-You can find it <a href="https://github.com/bennetelli/activemq-hawtio-standalone" target="_blank"><u>here</u></a>.
+<p>
+    Apache ActiveMQ is my first choice every time a Message Queue is needed to solve my integration problems.
+    Unfortunately the ActiveMQ Web Console is not that comfortable, so I decided to add the Red Hat JBoss project <a
+        href="http://hawt.io/" target="_blank"><u>hawtio</u></a> to my standalone ActiveMQ environment.
+    <br/>
+    Hawtio is a modular web console for managing Java stuff.
+    It has nice dashboards, wiki and lots of plugins for <a
+        href="http://hawt.io/plugins/logs/index.html"><u>logs</u></a>,<a
+        href="http://hawt.io/plugins/health/index.html"><u>health</u></a>, JMX, OSGi, <a
+        href="http://activemq.apache.org/"><u>Apache ActiveMQ</u></a>, <a href="http://camel.apache.org/"><u>Apache
+    Camel</u></a>, <a href="http://openejb.apache.org/"><u>Apache OpenEJB</u></a>, <a
+        href="http://tomcat.apache.org/"><u>Apache Tomcat</u></a>, <a href="http://www.eclipse.org/jetty/"><u>Jetty</u></a>,
+    <a href="http://www.jboss.org/jbossas"><u>JBoss</u></a> and <a href="http://fuse.fusesource.org/fabric/"><u>Fuse
+    Fabric</u></a>.
+    <br/>
+    Currently there are just a few tutorials out there which explain how to add hawtio to a standalone ActiveMQ
+    installation.
+    Unfortunately these tutorials are outdated and misleading.
+    Therefore I am writing this tutorial.
+    You can see it as an update of existing tutorials.
+    <br/>
+    There are two ways to get your standalone ActiveMQ up and running with hawtio.
+    You can either follow the following steps or take a look at my GitHub repository which contains a running version of
+    ActiveMQ and hawtio.
+    You can find it <a href="https://github.com/bennetelli/activemq-hawtio-standalone" target="_blank"><u>here</u></a>.
+</p>
 
 <h2>Getting Started</h2>
 <ol>
-    <li>Download the latest version of ActiveMQ (<a href="http://activemq.apache.org/download.html" target="_blank"><u>download</u></a>)</li>
-    <li>Download hawtio offline .war file (<a href="http://hawt.io/getstarted/index.html" target="_blank"><u>download</u></a>)</li>
-    <li>Unzip the formerly downloaded activemq folder </li>
+    <li>Download the latest version of ActiveMQ (<a href="http://activemq.apache.org/download.html" target="_blank"><u>download</u></a>)
+    </li>
+    <li>Download hawtio offline .war file (<a href="http://hawt.io/getstarted/index.html"
+                                              target="_blank"><u>download</u></a>)
+    </li>
+    <li>Unzip the formerly downloaded activemq folder</li>
     <li>Unzip the .war file</li>
     <li>Rename the folder to just "hawtio"</li>
     <li>Copy it in the unzipped activemq/webapps folder</li>
-    <li>To override the hawtio auth defaults, open the env script which is located in the bin folder in your activemq folder.</li>
-    <li>Search for "ACTIVEMQ_OPTS" and add these three properties: -Dhawtio.realm=activemq -Dhawtio.role=admins -Dhawtio.rolePrincipalClasses=org.apache.activemq.jaas.GroupPrincipal</li>
+    <li>To override the hawtio auth defaults, open the env script which is located in the bin folder in your activemq
+        folder.
+    </li>
+    <li>Search for "ACTIVEMQ_OPTS" and add these three properties: -Dhawtio.realm=activemq -Dhawtio.role=admins
+        -Dhawtio.rolePrincipalClasses=org.apache.activemq.jaas.GroupPrincipal
+    </li>
 </ol>
-After these steps, you can access the hawtio web console via <a href="http://localhost:8161/hawtio"><u>http://localhost:8161/hawtio</u></a> and login with admin/admin.
-The hawtio web console looks like:
-<br />
-<br />
-<a href="{{ site.baseurl }}/img/activemq-hawtio.jpg">
-    <img class="img-rounded" src="{{ site.baseurl }}/img/activemq-hawtio.jpg" />
-</a>
-<br />
-As you can see, the hawtio is a really nice addon and much more comfortable than the standard ActiveMQ console.
-Give it a try! Have fun with ActiveMQ and hawtio!
-<br />
-<br />
-<br />
-Bye,
-<br />
-Bennet
-<br />
+<p>
+    After these steps, you can access the hawtio web console via <a href="http://localhost:8161/hawtio"><u>http://localhost:8161/hawtio</u></a>
+    and login with admin/admin.
+    The hawtio web console looks like:
+    <br/>
+    <br/>
+    <a href="{{ site.baseurl }}/img/activemq-hawtio.jpg">
+        <img class="img-rounded" src="{{ site.baseurl }}/img/activemq-hawtio.jpg"/>
+    </a>
+    <br/>
+    As you can see, the hawtio is a really nice addon and much more comfortable than the standard ActiveMQ console.
+    Give it a try! Have fun with ActiveMQ and hawtio!
+</p>
+<p>
+    Bye,
+    <br/>
+    Bennet
+</p>
