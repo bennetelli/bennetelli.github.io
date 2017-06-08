@@ -1,0 +1,104 @@
+---
+layout:     post
+title:      "Monitoring Mule using hawtio and Jolokia"
+date:       2017-05-06 12:00:00
+author:     "Bennet Schulz"
+---
+<p>
+    Most of my customers are using Mule Enterprise Edition which comes with the Mule Management Console <a href="https://docs.mulesoft.com/mule-management-console/v/3.7/">(MMC)</a> which is really nice for monitoring of Mule Apps and Flows.
+    Unfortunately its an Enterprise Feature and there is nothing similar for the Community Edition supported by MuleSoft.
+    That's why I searched for Open Source Tools and decided to use hawtio for the monitoring of my customers Mule apps and flows.<br />
+    This post describes how to connect hawtio with a standalone Mule Community Edition runtime by using jolokia for Remote JMS wit JSON over HTTP.
+</p>
+
+<h1>What is Jolokia?</h1>
+<p>
+    Jolokia is a JMX-HTTP bridge giving an alternative to JSR-160 connectors.
+    It is an agent based approach with support for many platforms.
+    In addition to basic JMX operations it enhances JMX remoting with unique features like bulk requests and fine grained security policies.
+</p>
+
+<h1>Adding the Jolokia Agent to Mule</h1>
+<p>
+    Adding a jolokia agent to Mule is quite simple. First you have to <code class="shell plain"><a href="https://jolokia.org/download.html">download</a></code> the jolokia Mule-Agent.
+    In the next step you have to add it to the <code class="shell plain">lib/opt</code> folder of your standalone Mule runtime.
+
+    <div align="center">
+        <a href="{{ site.baseurl }}/img/jolokia-lib-opt.png">
+            <img class="img-rounded" src="{{ site.baseurl }}/img/jolokia-lib-opt.png" width="80%" height="80%"/>
+        </a>
+    </div>
+
+    <br />
+    Just put the jolokia-mule-x.x.x-agent.jar in the <code class="shell plain">lib/opt</code> folder and open the <code class="shell plain">mule-config.xml</code> which is located in the <code class="shell plain">apps/default</code> folder.
+    <br />
+    <br />
+
+    <div align="center">
+        <a href="{{ site.baseurl }}/img/mule-config.png">
+            <img class="img-rounded" src="{{ site.baseurl }}/img/mule-config.png" width="80%" height="80%"/>
+        </a>
+    </div>
+
+    <br />
+    After that you have to add some XML Snippets to the empty <code class="shell plain">mule-config.xml</code> to add the jolokia Mule agent.
+    <br />
+    <br />
+
+    <script src="https://gist.github.com/bennetelli/415dde3be8728fbb80fac8fe2483ca80.js"></script>
+
+    In the last step you have to stop and start the Mule runtime via <code class="shell plain">./mule stop</code> and <code class="shell plain">./mule start</code> and test if it works correctly by calling: <code class="shell plain"><a href="http://localhost:8899/jolokia">http://localhost:8899/jolokia</a></code> in your browser of choice.
+    <br />
+    <br />
+
+    <div align="center">
+        <a href="{{ site.baseurl }}/img/jolokia-chrome.png">
+            <img class="img-rounded" src="{{ site.baseurl }}/img/jolokia-chrome.png" width="100%" height="100%"/>
+        </a>
+    </div>
+
+    <u>Note:</u> Testing the jolokia installation via browser is the only way to test if it works correctly. The Mule Community Edition doesn't log registered agents anymore.
+</p>
+
+<h1>Connecting to Mule using hawtio</h1>
+<p>
+    After adding the agent to Mule you have to <a href="http://hawt.io/getstarted/index.html">download hawtio</a> and run it via console <code class="shell plain">java -jar hawtio-app-x.x.x.jar</code>.
+    It takes some seconds until your primary browser opens the entry url <code class="shell plain">http://localhost:8080/hawtio</code>.
+
+    <div align="center">
+        <a href="{{ site.baseurl }}/img/hawtio-index.png">
+            <img class="img-rounded" src="{{ site.baseurl }}/img/hawtio-index.png" width="100%" height="100%"/>
+        </a>
+    </div>
+
+    Now you can just click on <b>Connect to remote server</b> because we used the default port of jolokia which is also prefilled in this connections settings form.
+    It takes some seconds until a Dashboard appears which shows CPU Load, Heap Memory Usage and some other stuff.
+    <br />
+    <br />
+    <div align="center">
+        <a href="{{ site.baseurl }}/img/hawtio-dashboard.png">
+            <img class="img-rounded" src="{{ site.baseurl }}/img/hawtio-dashboard.png" width="100%" height="100%"/>
+        </a>
+    </div>
+</p>
+
+<h1>Creating a Mule Dashboard for a Mule project and flow</h1>
+<p>
+    Beside this JVM Dashboard its also useful to create your own dashboards which show informations about every project and every single flow in detail.
+    Therefore you can create a new custom dashboard which contains JMX informations about your flows. The following image shows such a dashboard with the Mule projects overall statistics and statistics for every single flow.
+
+    <div align="center">
+        <a href="{{ site.baseurl }}/img/hawtio-mule-dashboard.png">
+            <img class="img-rounded" src="{{ site.baseurl }}/img/hawtio-mule-dashboard.png" width="100%" height="100%"/>
+        </a>
+    </div>
+
+    Sure, it's not that nice as the JVM Dashboard, but it contains a lot of informations about every flow and it's very helpful to get an understanding of your apps running on your environments.
+    Maybe I will find some time to write a plugin or something like that to get a more beautiful visialization of Mule statistics.
+</p>
+
+<p>
+    Bye,
+    <br/>
+    Bennet
+</p>
