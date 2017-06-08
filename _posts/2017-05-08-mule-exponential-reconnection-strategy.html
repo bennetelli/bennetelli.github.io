@@ -1,0 +1,46 @@
+---
+layout:     post
+title:      "How to implement a Custom Reconnection Strategy in Mule"
+date:       2017-05-06 12:00:00
+author:     "Bennet Schulz"
+---
+<p>
+    During my last project we needed a standardized reconnection strategy when a connection to a Database or Message Broker goes down.
+    This reconnection strategy should be able to reconnect in an exponential manner. Mule doesn't come with such a reconnection strategy by default.
+    Therefore we had to implement a custom reconnection strategy. This article describes how to implement and configure custom reconnection strategies.
+</p>
+
+<h1>Implementing the Reconnection Strategy in Java</h1>
+<p>
+    First you have to create a new Java class and implement the reconnection behaviour. The Mule documentation recommends creating a Java class and let it implement the <a href="https://docs.mulesoft.com/mule-user-guide/v/3.7/configuring-reconnection-strategies">RetryPolicyTemplate</a> interface.
+    Unfortunately this didn't work as expected in our case so we took a look at the Policy Templates Mule comes with and found the SimpleRetryPolicyTemplate class which allows the user to configure how many times a retry should be attempted and how long to wait between each retry.
+    This is a subset of our exponential reconnection behaviour so we just need to extend it by an exponential backoff algorithm which increases after each failed retry.<br />
+    The following snippet shows the Java class with exponential backoff behaviour.
+</p>
+<p>
+    <script src="https://gist.github.com/bennetelli/ad5a6815b04a5e176fa40b7e8a39f4b8.js"></script>
+
+    As you can see it extends the SimpleRetryPolicyTemplate class instead of the RetryPolicyTemplate interface. It also have to override the createRetryInstance() method.
+    The RetryPolicy returned by the method implements the strategy algorithm. In case the policy is applied it calculates the exponential sleep time of a Thread and returns true as long as the maxRetryCount is greater than 0.
+    In case of a maxRetryCount of 0 the strategy stops trying to reconnect to a Database or Message Broker and throws an exception.
+</p>
+
+<h1>Configuring your Mule flows to use the Strategy</h1>
+<p>
+    After creating the Java class which implements the expected behaviour you have to add some additional XML snippets to your Mule flows.
+    To make a Custom Reconnection Strategy configurable you have to add attributes and public getters and setters to the Java class.
+    In my example there are three configurable properties: maxRetryCount, frequency and initialReconnectionTime.
+
+    <script src="https://gist.github.com/bennetelli/c7acfed2e58b3740136ff72699e9250b.js"></script>
+
+    These three properties are also part of the mule flow which uses this custom strategy. There are two strategies in this flow example. One for the Apache Derby Database connection and the other one for Apache ActiveMQ connection.
+    The first one tries to reconnect five times with a frequency of 300ms and an initialReconnectionTime of 100ms. The other one tries to connect to ActiveMQ 9 times in a row with the same frequency and initialReconnectionTime.
+    <br />
+    <br />
+    That's it :-)
+</p>
+<p>
+    Bye,
+    <br/>
+    Bennet
+</p>
