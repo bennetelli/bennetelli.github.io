@@ -1,0 +1,52 @@
+---
+layout:     post
+title:      "Monitoring ActiveMQ using JConsole"
+date:       2017-09-05 15:00:00
+author:     "Bennet Schulz"
+---
+<p>
+    Sometimes you just want to monitor a local running JVM for example when you are doing firefighting at a customer who does not have installed a monitoring tool like <a href="http://hawt.io/" >hawt.io</a> (which I prefer for monitoring).
+    Luckily every Java installation comes with a graphical user interface for monitoring JVMs via JMX which is called JConsole.
+    I didn't know it before. Therefore I'm writing this blogpost and hope someone else learns something new as well.
+</p>
+
+<h1>What is JConsole?</h1>
+<p>
+    The JConsole is a plain Java monitoring tool which comes with a graphical user interface written in Swing.
+    It complies to the Java Management Extensions (JMX) specification and gives you a lot of useful information about performance and resource consumption and so on which is needed for live monitoring of local and remote running JVMs.
+    You can use this tool if your application is running out of memory or hosing up the CPU.
+</p>
+
+<h1>Getting Started</h1>
+<p>
+    First you have to start JConsole by opening a terminal and typing JConsole to it.
+    After that a beautiful Swing application opens and you can either choose between a local running JVM process or connect to a remote one.
+    I'm working on the production machine so I can choose the local running activemq process <code class="shell plain">activemq.jar start</code>.
+    <div align="center">
+        <a href="{{ site.baseurl }}/img/JConsole-connect.png">
+            <img class="img-rounded" src="{{ site.baseurl }}/img/JConsole-connect.png" width="80%" height="80%"/>
+        </a>
+    </div>
+    Now you just have to click the Connect button to get access to lots of informations about the state of the JVM process.
+    <div align="center">
+        <a href="{{ site.baseurl }}/img/JConsole-overview.png">
+            <img class="img-rounded" src="{{ site.baseurl }}/img/JConsole-overview.png" width="80%" height="80%"/>
+        </a>
+    </div>
+    I experimented a bit with it. So don't worry about the heavy CPU usage of ActiveMQ.
+    I produced and consumed thousands of test messages to it just to see how it would look like in JConsole :-)
+</p>
+<p>
+    Another useful feature is the MBeans connection.
+    Click on the MBeans tab on the top of the JConsole and open the <code class="shell plain">org.apacheactivemq/Broker/localhost</code> folder.
+    By doing this you get lots of informations about the health of the running ActiveMQ broker. It's also possible to start and stop or add and remove queues and topics to it.
+    Beside of this basic broker operations you can also call methods on specific Queues and Topics like browsing and sending messages to it. Just take a look at the MBeans Tab of JConsole and play around with it :-)
+</p>
+<p>
+    Hope you learned something new. Have fun with it!
+</p>
+<p>
+    Bye,
+    <br/>
+    Bennet
+</p>
