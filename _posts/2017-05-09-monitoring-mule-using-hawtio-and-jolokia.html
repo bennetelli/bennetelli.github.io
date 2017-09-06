@@ -3,6 +3,9 @@ layout:     post
 title:      "Monitoring Mule using hawtio and Jolokia"
 date:       2017-06-07 12:00:00
 author:     "Bennet Schulz"
+tags:
+- Artemis
+- ActiveMQ
 ---
 <p>
     Most of my customers are using Mule Enterprise Edition which comes with the Mule Management Console <a href="https://docs.mulesoft.com/mule-management-console/v/3.7/">(MMC)</a> which is really nice for monitoring of Mule Apps and Flows.
@@ -16,6 +19,11 @@ author:     "Bennet Schulz"
     Jolokia is a JMX-HTTP bridge giving an alternative to JSR-160 connectors.
     It is an agent based approach with support for many platforms.
     In addition to basic JMX operations it enhances JMX remoting with unique features like bulk requests and fine grained security policies.
+</p>
+
+<h1>Why Jolokia instead of JMX?</h1>
+<p>
+    I decided to choose Jolokia instead of JMX because it uses http as transport protocol which works more easily over firewalls and proxies.
 </p>
 
 <h1>Adding the Jolokia Agent to Mule</h1>
