@@ -17,7 +17,7 @@ tags:
 </p>
 <h1>Create a Camel project via console</h1>
 <p>
-    You can use the following snippet to generate a sample Apache Camel project with a small sample using the Java DSL.
+    You can use the following snippet to generate a Apache Camel project with a small sample routing logic using the Java DSL.
     <br>
     <code class="shell plain">mvn archetype:generate -DgroupId=com.schulz.bennet -DartifactId=camel-start-java -DarchetypeGroupId=org.apache.camel.archetypes -DarchetypeArtifactId=camel-archetype-java -DinteractiveMode=false</code>
 
@@ -47,8 +47,8 @@ tags:
             <img class="img-rounded" src="{{ site.baseurl }}/img/camel-start-main.png" width="80%" height="80%"/>
         </a>
     </div>
-    As you can see it's a plain Java class which contains a main() method as every plain Java SE project does.
-    In addition to a plain Java SE project there is also a Main object in the main() method.
+    As you can see it's a plain Java class which contains a main() method as every Java SE project does.
+    In addition to a Java SE project there is also a Main object in the main() method.
     This Main object is a helper class which comes with the Camel core dependency (part of your maven pom.xml).
     It can be used to boot up Camel and keep it running more easily.
     <br>
