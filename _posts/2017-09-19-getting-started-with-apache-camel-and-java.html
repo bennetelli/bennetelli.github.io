@@ -1,0 +1,92 @@
+---
+layout:     post
+title:      "Getting Started with Apache Camel and Java"
+date:       2017-09-19 15:00:00
+author:     "Bennet Schulz"
+tags:
+- Camel
+---
+<p>
+    Some days ago a friend of mine told me it would be very hard to start with Apache Camel as a Java Developer because the documentation is missing or very hard to find.
+    <br>
+    I know there are some other tutorials out there but some of them are outdated or contain too much content for a simple getting started guide.
+    Therefore I decided to write this blogpost to help other developers starting with Apache Camel and Java.
+    <br>
+    This post describes how to create a new Maven based standalone Apache Camel project using the Java DSL.
+    Standalone means it's a plain Java application and not integrated in a Spring application, an OSGI bundle or something like that.
+</p>
+<h1>Create a Camel project via console</h1>
+<p>
+    You can use the following snippet to generate a sample Apache Camel project with a small sample using the Java DSL.
+    <br>
+    <code class="shell plain">mvn archetype:generate -DgroupId=com.schulz.bennet -DartifactId=camel-start-java -DarchetypeGroupId=org.apache.camel.archetypes -DarchetypeArtifactId=camel-archetype-java -DinteractiveMode=false</code>
+
+</p>
+<h1>Create a Camel project via IntelliJ</h1>
+<p>
+    Just in case you don't like the console that much you can use the IntelliJ wizard as well.
+    Open IntelliJ and click on <code class="shell plain">File -> New -> Project... -> Maven</code>. Now enable the <code class="shell plain">Create from archetype</code> checkbox and select <code class="shell plain">org.apache.camel.archetypes:camel-archetype-java</code>.
+
+    <div align="center">
+        <a href="{{ site.baseurl }}/img/camel-start-intellij-wizard.png">
+            <img class="img-rounded" src="{{ site.baseurl }}/img/camel-start-intellij-wizard.png" width="60%" height="60%"/>
+        </a>
+    </div>
+    In the next step you have to type your GroupId and ArtifactId. You can also change the Version if you want to:
+    <div align="center">
+        <a href="{{ site.baseurl }}/img/camel-start-intellij.png">
+            <img class="img-rounded" src="{{ site.baseurl }}/img/camel-start-intellij.png" width="60%" height="60%"/>
+        </a>
+    </div>
+</p>
+<h1>Understanding the sample project</h1>
+<p>
+    In the sample which comes with the maven archetype there are two classes: <code class="shell plain">MainApp</code> and <code class="shell plain">MyRouteBuilder</code>. The Main App looks like this:
+    <div align="center">
+        <a href="{{ site.baseurl }}/img/camel-start-main.png">
+            <img class="img-rounded" src="{{ site.baseurl }}/img/camel-start-main.png" width="80%" height="80%"/>
+        </a>
+    </div>
+    As you can see it's a plain Java class which contains a main() method as every plain Java SE project does.
+    In addition to a plain Java SE project there is also a Main object in the main() method.
+    This Main object is a helper class which comes with the Camel core dependency (part of your maven pom.xml).
+    It can be used to boot up Camel and keep it running more easily.
+    <br>
+    <br>
+    <u>Note:</u> It's also possible to create a CamelContext on your own instead of using the Main object for it,
+    but I recommend using the Main object for it because you don't have to add code to keep the JVM up and running.
+    The Main object takes care of it and will run as long as you don't terminate the current JVM.
+    <br>
+    <br>
+    You have to use this Main object to add Camel routes to it. A route is a class which contains integration logic like inputs, transformations, endpoints and so on.
+    It's comparable to a graph which has exactly one source and one sink.
+    <br>
+    The Camel route in this sample is named <code class="shell plain"> MyRouteBuilder</code>.
+    <div align="center">
+        <a href="{{ site.baseurl }}/img/camel-start-route.png">
+            <img class="img-rounded" src="{{ site.baseurl }}/img/camel-start-route.png" width="80%" height="80%"/>
+        </a>
+    </div>
+    A route class has to extend the RouteBuilder class. In addition to that it has to override a configure() method which contains the routing logic.
+    In this example it contains a logic which reads files from <code class="shell plain">src/main/data</code> by using the file component. (see: <a href="http://camel.apache.org/file2.html">Apache Camel File Connector</a>)
+    <br>
+    <br>
+    <u>Note:</u> components can be configured by adding it in HTTP query parameter style. In this example the 'noop' configuration means that the files in the <code class="shell plain">src/main/data</code> directory should not be moved or deleted.
+    <br>
+    <br>
+    As you can see in the IntelliJ snippet, processing steps are added to the route by using a builder API starting with a from() method call. This from() call contains the file component described before.
+    In the next processing step there is a choice() method call followed by when() and otherwise() calls.
+    These two method calls take the output of the file component in the processing step before and take a look into the file itself by using the xpath component.
+    This component parses the input files and searches for <code class="shell plain">/person/city</code> hierarchy in the input file.
+    If it's part of the file and the city is London, another component will log "UK message" and will write the whole file to <code class="shell plain">target/messages/uk</code>.
+    Otherwise it will log "Other message" and write it to <code class="shell plain">target/messages/others</code>.
+    <br>
+    <br>
+    That's it. Just a small tutorial of how to get started with Apache Camel and Java and a explanation of the sample project which comes with the Apache Camel Java DSL Maven archetype.
+    I hope it helps some developers to get started which Apache Camel and Java more easily :-)
+</p>
+<p>
+    Bye,
+    <br/>
+    Bennet
+</p>
