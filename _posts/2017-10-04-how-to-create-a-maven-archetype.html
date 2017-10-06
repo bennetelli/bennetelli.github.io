@@ -1,0 +1,85 @@
+---
+layout:     post
+title:      "How to Create a Maven Archetype"
+date:       2017-10-04 15:00:00
+author:     "Bennet Schulz"
+tags:
+- Maven
+---
+<p>
+    There are lots of blogposts out there about this topic. Unfortunately most of them are outdated.
+    Even the Apache Maven Guide itself.
+    Therefore I decided to write this post and update the Apache Maven documentation afterwards.
+</p>
+<h1>Why do we need a Maven archetype?</h1>
+<p>
+    During development we create lots of projects and most of the time there is something like a configuration standard and you
+    have the same files, package structure and so on in all of your projects. That's were Maven archetypes come in. A custom Maven archetype
+    helps other developers to create new Maven projects faster and without copy pasting stuff from an existing project. On the one side it's faster than
+    copy pasting stuff around and on the other side you won't make failures while copy pasting, because there is no chance to forget changing
+    the copied stuff to your current project.
+</p>
+
+<h1>Create a new Maven project</h1>
+<p>
+    If you want to create a custom Maven archetype you have to create a new Maven project first. The easiest way in my opinion is using the following archetype (if you know an easier way please let me know):
+    <br>
+    <code>mvn archetype:generate -DgroupId=com.schulz.bennet -DartifactId=sample-maven-archetype -DarchetypeArtifactId=maven-archetype-archetype</code>
+    <br>
+    Unfortunately it's in an older version, so we have to do change some files to create an up to date archetype.
+    After generating the sample archetype Maven project we have to import in our IDE of choice.
+    <div align="center">
+        <a href="{{ site.baseurl }}/img/sample-archetype.png">
+            <img class="img-rounded" src="{{ site.baseurl }}/img/sample-archetype.png" width="80%" height="80%"/>
+        </a>
+    </div>
+    <br>
+After doing this your project structure looks the image above.
+</p>
+<h1>Create the prototype files</h1>
+<p>
+    Now we can add the files every new Maven project should contain when using this archetype. We simply have to put these files
+    under the <code>archetype-resources directory</code>.
+    <div align="center">
+        <a href="{{ site.baseurl }}/img/java-resources.png">
+            <img class="img-rounded" src="{{ site.baseurl }}/img/java-resources.png" width="80%" height="80%"/>
+        </a>
+    </div>
+</p>
+
+<h1>Customize the archetype descriptor</h1>
+<p>
+    In the next step we have to rename the <code>archetype.xml</code> to <code>archetype-metadata.xml</code>
+    and change the file content to:
+    <script src="https://gist.github.com/bennetelli/e7636539e6d76af4ceabe1dadceccc07.js"></script>
+    This file should contain all the files we want to have in our new created projects when using this archetype.
+    So let's add the Jenkinsfile and the <code>src/main/java</code> directory to it.
+    <script src="https://gist.github.com/bennetelli/ec43b1d4c0616778a065405b85f38678.js"></script>
+    Now every created Maven project will contain a <code>Jenkinsfile</code>, a <code>src/main/resources</code> directory and a sample Java class.
+</p>
+
+<h1>Create the prototype pom.xml</h1>
+<p>
+    In the last step we have to put everything we want to have in the new projects pom.xml in the prototype pom.
+    <script src="https://gist.github.com/bennetelli/3ee348f06f4e11ee17063069e0fba932.js"></script>
+    The groupId, artifactId and version are placeholders and will be replaced when using the archetype.
+    In addition to these placeholders we can put dependencies, plugins and so on in this pom and it would also be part of the the new created projects.
+</p>
+
+<h1>Install the archetype</h1>
+<p>
+    Now you have to install the archetype in your local maven repository by change the directory to your archetype and type <code>mvn install</code> on your command line.
+    After that the archetype is available on your machine and you can use it to create preconfigured Maven projects based on your needs of your organization.
+</p>
+<h1>Create a new project using the archetype</h1>
+<p>
+    Finally we can use our created archetype on our command line:
+    <br>
+    <code>mvn archetype:generate -DarchetypeGroupId=com.schulz.bennet -DarchetypeArtifactId=sample-maven-archetype -DarchetypeVersion=1.0.0-SNAPSHOT -DgroupId=com.schulz.bennet -DartifactId=my-new-project</code>
+</p>
+<p>Have fun with it! :-)</p>
+<p>
+    Bye,
+    <br/>
+    Bennet
+</p>
