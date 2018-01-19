@@ -1,0 +1,87 @@
+---
+layout:     post
+title:      "Spring Boot, Apache Camel and Swagger UI"
+date:       2018-01-17 15:00:00
+author:     "Bennet Schulz"
+tags:
+- Maven
+---
+<p>
+    Companies are using lots of systems which have to talk with each other. Therefore it's a good idea to use something to integrate these systems.
+    Such an application integration can be done by an Enterprise Service Bus or even with an integration framework like Apache Camel.
+    I highly recommend to use one of these and don't program it on your own by using lots of APIs. Please don't do this!
+    <br>
+    I'm a big fan of lightweight integration and flexibility so it's not surprising that Apache Camel is my tool of choice.
+    Apache Camel can be used in standalone mode by using a jar containing the Camel routes or as part of a runtime like Spring Boot or WildFly/WildFly Swarm for example.
+    I decided to use Spring Boot as runtime because it is widely used and comes with a lot of useful things, a very good documentation and so on.
+    In addition to that I'm usind Swagger UI to get a beautiful API documentation which makes consuming REST APIs much easier.
+    <br>
+    This blog posts describes how to combine these technologies with each other. In case you just want to use the code, here's the <a href="https://github.com/bennetelli/spring-boot-camel-swagger-ui">link</a> to my GitHub repository.
+</p>
+
+<h1>Create a Spring Boot and Apache Camel project</h1>
+<p>
+    First we have to create a Spring Boot project containing the Apache Camel dependency first. This can easily be done by using the Spring Initializr which is available at: <a href="https://start.spring.io/">https://start.spring.io/</a>
+    <div align="center">
+        <a href="{{ site.baseurl }}/img/spring-initializr.png">
+            <img class="img-rounded" src="{{ site.baseurl }}/img/spring-initializr.png" width="100%" height="100%"/>
+        </a>
+    </div>
+    You just change the Group and Artifact to the names you like and Add Apache Camel as Spring Boot Starters dependency. After that you have to click on Generate Project and you project is up and running.
+</p>
+
+<h1>Integrate Swagger UI in Spring Boot</h1>
+<p>
+    Now we can add the Swagger UI files to our Spring Boot project. This can be done by downloading the Swagger UI sources from:
+    <a href="https://github.com/swagger-api/swagger-ui">https://github.com/swagger-api/swagger-ui</a>.
+    <br>
+    <br>
+    <u>Note:</u> I'm using Swagger UI 2.2.8 instead of the latest version because the Camel component doesn't support the new API specification of Swagger 3.X for now.
+    <br>
+    <br>
+    After that we have to create a new folder at <code>src/main/resources</code> which have to be named: <code>static</code>, <code>public</code> or <code>resources</code> to serve our static Swagger UI content via Spring Boot.
+    Now we simply have to add the <code>dist</code> folder of Swagger UI to this folder to make Swagger UI available in our project.
+    <div align="center">
+        <a href="{{ site.baseurl }}/spring-boot-swagger-site.png">
+            <img class="img-rounded" src="{{ site.baseurl }}/img/spring-boot-swagger-site.png" width="100%" height="100%"/>
+        </a>
+    </div>
+    <br>
+    After that Swagger UI is available at: <a href="http://localhost:8080/swagger/index.html">http://localhost:8080/swagger/index.html</a>
+</p>
+
+<h1>Add a Camel route</h1>
+<p>
+    In the next step we have to add a simple Camel route to the Spring Boot project. By doing this we have to add a Camel servlet first.
+    <script src="https://gist.github.com/bennetelli/1cf6beac596fea33515155b7b5417522.js"></script>
+    This snippet adds a servlet mapping which will be the prefix of all Camel routes we will add later.
+    After that all camel routes will be available at localhost:8080/api/*. Now its time to add the route itself:
+    <script src="https://gist.github.com/bennetelli/1408d112c9e91a366d735f8636492211.js"></script>
+    This route adds a person REST URI which can be used by HTTP GET only and returns a JSON response of my Person POJO class:
+    <script src="https://gist.github.com/bennetelli/708fb615c79f4f44162e194e68cfe937.js"></script>
+    After these steps the Person respone is available at: http://localhost:8080/api/person
+</p>
+
+<h1>Combining Swagger and Camel routes</h1>
+<p>
+    After adding the REST API it's time to combine Camel and Swagger UI with each other.
+    This can be done by changing the url in the swagger index.html from the sample petstore to <code>/api-doc/camel-1</code>:
+    <script src="https://gist.github.com/bennetelli/a2d383886696ffd08307fd8da916e57b.js"></script>
+    Now we have to add a servlet mapping for Swagger to use the Camel route urls:
+    <script src="https://gist.github.com/bennetelli/b6dbd83e8baa47745fbc6460d29dd22a.js"></script>
+    After that Swagger UI will use the Camel REST API instead of the sample petstore. It's important to change the <code>base.path</code> of the servlet to <code>api</code> because our REST APIs have <code>/api/</code> as prefix.
+    These steps let Swagger UI show a beautiful documentation of our Camel REST APIs.
+    <br>
+    <div align="center">
+        <a href="{{ site.baseurl }}/swagger-ui-person-api.png">
+            <img class="img-rounded" src="{{ site.baseurl }}/img/swagger-ui-person-api.png" width="100%" height="100%"/>
+        </a>
+    </div>
+</p>
+
+<p>Have fun with it! :-)</p>
+<p>
+    Bye,
+    <br/>
+    Bennet
+</p>
