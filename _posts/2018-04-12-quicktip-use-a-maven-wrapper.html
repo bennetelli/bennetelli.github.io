@@ -1,0 +1,48 @@
+---
+layout:     post
+title:      "Quicktip: Use a Maven Wrapper"
+date:       2018-04-12 15:00:00
+author:     "Bennet Schulz"
+tags:
+- Maven
+---
+<p>
+  I'm using a Gradle wrapper every time I work with Gradle.
+  That's more or less the de facto standard for me when using Gradle as build automation tool.
+  But when using Maven it's not that common to use a wrapper.
+  Maybe some people never used Gradle and they don't know what a Wrapper is and which problems are solved by using one.
+  That's the reason why I'm writing this blog post. In this blogpost I will describe why and how to use a Maven wrapper.
+</p>
+
+<h1>What is a Maven wrapper and why should I use one?</h1>
+<p>
+  A Maven wrapper can be used if a Maven build depends on a specific version of Maven or if there are different environments where Maven is used or even when the developers don't want to install Maven on their local machine ;-)
+  By using a Maven wrapper on top of your Maven project your code doesn't depend on a specific Maven version or installation anymore.
+  This means you don't need to download a specific version of Maven and you also don't need to add an environment variable for this Maven version to your classpath.
+  That's nice isn't it? :-)
+</p>
+
+<h1>How do I get started?</h1>
+<p>
+  The easiest way to add a Maven wrapper to your project is to use the <a href="https://github.com/takari/takari-maven-plugin">Maven Wrapper plugin</a>.
+  Just add it to you <code>build/plugins</code> section of your pom.xml:
+  <script src="https://gist.github.com/bennetelli/590cda6adbd18acf17e167b21a8ae4c8.js"></script>
+
+  After that you have to open the terminal, cd into the project folder and call: <code>mvn -N io.takari:maven:wrapper</code>.
+  This snippet adds a .mvn folder containing a wrapper jar, some properties and so on. It also adds two scripts which will replace
+  the <code>mvn ...</code> call via console.
+  You just have to use these generated scripts instead of the mvn calls on your terminal. The scripts can be used the same way maven is used via command line. A clean and install call via Maven wrapper for example would look like <code>./mvnw clean install</code>.
+</p>
+
+<h1>Conclusion</h1>
+<p>
+  By using a Maven wrapper instead of plain mvn command line calls your builds get independent from a specific maven version and specific installations which everyone needs to have on the local machine because everything needed for the Maven build
+  is part of your project.
+</p>
+
+<p>Hope you learned something new. Have fun with it! :-)</p>
+<p>
+  Bye,
+  <br/>
+  Bennet
+</p>
