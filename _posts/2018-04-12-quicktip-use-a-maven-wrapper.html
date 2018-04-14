@@ -25,13 +25,11 @@ tags:
 <h1>How do I get started?</h1>
 <p>
   The easiest way to add a Maven wrapper to your project is to use the <a href="https://github.com/takari/takari-maven-plugin">Maven Wrapper plugin</a>.
-  Just add it to you <code>build/plugins</code> section of your pom.xml:
-  <script src="https://gist.github.com/bennetelli/590cda6adbd18acf17e167b21a8ae4c8.js"></script>
-
-  After that you have to open the terminal, cd into the project folder and call: <code>mvn -N io.takari:maven:wrapper</code>.
-  This snippet adds a .mvn folder containing a wrapper jar, some properties and so on. It also adds two scripts which will replace
+  Just <code>cd</code> into your projects folder and call <code>mvn -N io.takari:maven:wrapper</code>.
+  This call adds a .mvn folder containing a wrapper jar, some properties and so on. It also adds two scripts which will replace
   the <code>mvn ...</code> call via console.
   You just have to use these generated scripts instead of the mvn calls on your terminal. The scripts can be used the same way maven is used via command line. A clean and install call via Maven wrapper for example would look like <code>./mvnw clean install</code>.
+  <u>Note:</u> you don't need to add the maven-wrapper.jar to your SCM. It will be downloaded automatically if you don't add it to your SCM. Thanks to <a href="https://twitter.com/fbricon">Fred Bricon</a> who commented my tweet about it. Forgot to mention it in this blogpost.
 </p>
 
 <h1>Conclusion</h1>
