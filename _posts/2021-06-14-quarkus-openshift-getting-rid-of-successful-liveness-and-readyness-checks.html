@@ -28,11 +28,12 @@ tags:
 <p>
   First you have to add three entries to your <code>application.properties</code> file:
   <script src="https://gist.github.com/bennetelli/e0428be3aa5979e128b777a034f1e3f9.js"></script>
-  The first entry enables the Quarkus internal access logging, the second one declares the name of the logging category/the loggers name and the last entry TODO.
+  The first entry enables the Quarkus internal access logging, the second one declares the name of the logging category which is the same as the loggers name and the last entry is a standard format which is also used by Apache Tomcat (<a href="http://fileformats.archiveteam.org/wiki/Combined_Log_Format">see</a>).
   By doing this, the application starts printing access logs. You can test it by calling the <code>/health</code> endpoint of your application.
   <br>
   After enabling the general access logging we have to add the filter itself. This can be done by adding a filter to the existing
   logging category. The name of the logger has to be the same as declared in the applications.properties file.
+  <br>
   <script src="https://gist.github.com/bennetelli/5c836f5eb0f6992504284f15e9c4c0d2.js"></script>
   As you can see here in the <code>initAccessLogFilter()</code> method, we get the Logger with the same name
   as the <code>quarkus.http.access-log.category=access_log</code> entry in <code>the applications.properties</code> file.
@@ -43,12 +44,11 @@ tags:
 
 <h1>Conclusion</h1>
 <p>
-  By adding these lines of code you can get rid of these non helpful access log entries.
-  I think this is an easy way to get rid of these messages. Unfortunately you don't find much in the web to do this, so
-  I wanted to write this blog post.
+  By adding this handler you can get rid of these non helpful successful access log entries.
+  Unfortunately you don't find much in the web to do this, so I wanted to write this blog post.
 </p>
 
-<p>Hope this blog post is useful and you learned something new :-)</p>
+<p>Hope this blog post is useful for someone and you learned something new :-)</p>
 <p>
   Bye,
   <br/>
