@@ -1,0 +1,56 @@
+---
+layout:     post
+title:      "Quarkus on OpenShift: Getting rid of succesful liveness and readyness checks"
+date:       2021-06-14 07:00:00
+author:     "Bennet Schulz"
+tags:
+- Java
+- Quarkus
+- OpenShift
+- Kubernetes
+---
+<p>
+  It's been a while since my last blog post and I think it's time to write a new one. Some days ago we had the situation of too many
+  useless successful live- and readyness check messages in our application logs as well as in Kibana and we didn't want to filter these logs afterwards in Kibana, so
+  we decided to implement a filter in our application to get rid of these logs as early as possible and log the healthcheck errors, only.
+  There isn't much in the web about it, so I decided to write this blogpost. Maybe it's useful for others as well.
+</p>
+
+<h1>What's the problem?</h1>
+<p>
+  In our OpenShift Logs there are tons of log messages like these:
+  <code>127.0.0.1 - - 09/Jun/2021:16:07:07 +0200 "GET /q/health HTTP/1.1" 200 46 "-" "Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:88.0) Gecko/20100101 Firefox/88.0</code>
+  As much as I like that the application is healthy, messages like these are not useful. They blow up the log files and you always have to filter these messages in Kibana to see the really interesting logs.
+  That's why we want to filter these messages.
+</p>
+
+<h1>How did we do that?</h1>
+<p>
+  First you have to add three entries to your <code>application.properties</code> file:
+  <script src="https://gist.github.com/bennetelli/e0428be3aa5979e128b777a034f1e3f9.js"></script>
+  The first entry enables the Quarkus internal access logging, the second one declares the name of the logging category/the loggers name and the last entry TODO.
+  By doing this, the application starts printing access logs. You can test it by calling the <code>/health</code> endpoint of your application.
+  <br>
+  After enabling the general access logging we have to add the filter itself. This can be done by adding a filter to the existing
+  logging category. The name of the logger has to be the same as declared in the applications.properties file.
+  <script src="https://gist.github.com/bennetelli/5c836f5eb0f6992504284f15e9c4c0d2.js"></script>
+  As you can see here in the <code>initAccessLogFilter()</code> method, we get the Logger with the same name
+  as the <code>quarkus.http.access-log.category=access_log</code> entry in <code>the applications.properties</code> file.
+  In the next step we set a filter which filters every log entry with a http status code of 200 and containing the health, health/live, health/ready or metrics endpoint.
+  <br>
+
+</p>
+
+<h1>Conclusion</h1>
+<p>
+  By adding these lines of code you can get rid of these non helpful access log entries.
+  I think this is an easy way to get rid of these messages. Unfortunately you don't find much in the web to do this, so
+  I wanted to write this blog post.
+</p>
+
+<p>Hope this blog post is useful and you learned something new :-)</p>
+<p>
+  Bye,
+  <br/>
+  Bennet
+</p>
