@@ -4,11 +4,10 @@ header-img: img/aroma-1239226_1280_2.jpg
 email: mail@bennet-schulz.com
 copyright_name: Bennet Schulz
 description: "Blog about Software Development focused on Java Enterprise Edition and Integration. I am also blogging about general Java topics, books and so on."
-baseurl: ""
-url: "http://bennet-schulz.com"
+baseurl: "https://bennet-schulz.com"
+url: "https://bennet-schulz.com"
 twitter_username: bennetelli
 github_username:  bennetelli
-facebook_username:  bennet.schulz
 xing_username: Bennet_Schulz
 linkedin_username: bennet-schulz-8a3bb4131
 
